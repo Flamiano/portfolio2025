@@ -144,7 +144,7 @@ export default function Home() {
               <EducationSection />
               <ProjectSection />
               <TechStackSection />
-              <OffersSection />
+              <OfferingsPage />
               <ContactSection />
             </div>
 
