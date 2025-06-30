@@ -50,15 +50,38 @@ export default function EducationSection() {
   const storyRef = useRef(null);
   const isInView = useInView(storyRef, { amount: 0.3, once: false });
 
-  // Move refs outside the map
+  // Refs for each card
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [inViewStates, setInViewStates] = useState(
+    Array(educationData.length).fill(false)
+  );
+
   useEffect(() => {
     cardRefs.current = cardRefs.current.slice(0, educationData.length);
-  }, []);
+    const observers: IntersectionObserver[] = [];
 
-  const cardInViewStates = educationData.map((_, index) =>
-    useInView(() => cardRefs.current[index], { amount: 0.3, once: false })
-  );
+    cardRefs.current.forEach((el, index) => {
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setInViewStates((prev) => {
+              const updated = [...prev];
+              updated[index] = true;
+              return updated;
+            });
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -90,7 +113,7 @@ export default function EducationSection() {
 
       <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center max-w-[700px] lg:max-w-full mx-auto">
         {educationData.map((item, index) => {
-          const isCardInView = cardInViewStates[index];
+          const isCardInView = inViewStates[index];
 
           return (
             <div

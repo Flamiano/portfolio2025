@@ -64,7 +64,15 @@ const Typewriter = ({
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, index, texts]);
+  }, [
+    displayText,
+    isDeleting,
+    index,
+    texts,
+    typingSpeed, 
+    deletingSpeed, 
+    pause, 
+  ]);
 
   return <span className="text-[#5e17eb] font-medium">{displayText}</span>;
 };

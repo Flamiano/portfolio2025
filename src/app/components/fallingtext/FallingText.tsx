@@ -76,7 +76,11 @@ const FallingText: React.FC<FallingTextProps> = ({
 
     if (!containerRef.current || !canvasContainerRef.current) return;
 
-    const containerRect = containerRef.current.getBoundingClientRect();
+    // ✅ FIX: Capture refs in local variables
+    const canvasEl = canvasContainerRef.current;
+    const containerEl = containerRef.current;
+
+    const containerRect = containerEl.getBoundingClientRect();
     const width = containerRect.width;
     const height = containerRect.height;
 
@@ -86,7 +90,7 @@ const FallingText: React.FC<FallingTextProps> = ({
     engine.world.gravity.y = gravity;
 
     const render = Render.create({
-      element: canvasContainerRef.current,
+      element: canvasEl,
       engine,
       options: {
         width,
@@ -163,7 +167,7 @@ const FallingText: React.FC<FallingTextProps> = ({
       elem.style.transform = "none";
     });
 
-    const mouse = Mouse.create(containerRef.current);
+    const mouse = Mouse.create(containerEl);
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse,
       constraint: {
@@ -201,8 +205,8 @@ const FallingText: React.FC<FallingTextProps> = ({
     return () => {
       Render.stop(render);
       Runner.stop(runner);
-      if (render.canvas && canvasContainerRef.current) {
-        canvasContainerRef.current.removeChild(render.canvas);
+      if (render.canvas && canvasEl) {
+        canvasEl.removeChild(render.canvas);
       }
       World.clear(engine.world, false);
       Engine.clear(engine);
@@ -228,14 +232,12 @@ const FallingText: React.FC<FallingTextProps> = ({
       onClick={trigger === "click" ? handleTrigger : undefined}
       onMouseEnter={trigger === "hover" ? handleTrigger : undefined}
     >
-      {/* ⬇️ Gray background "HOVER ME" text */}
       <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
         <span className="text-5xl lg:text-[14rem] md:text-7xl font-bold text-gray-600 opacity-20 select-none">
           HOVER ME
         </span>
       </div>
 
-      {/* ⬇️ The animated/falling text */}
       <div
         ref={textRef}
         className="inline-block relative z-10"
@@ -245,7 +247,6 @@ const FallingText: React.FC<FallingTextProps> = ({
         }}
       />
 
-      {/* ⬇️ Matter.js canvas layer */}
       <div className="absolute top-0 left-0 z-0" ref={canvasContainerRef} />
     </div>
   );

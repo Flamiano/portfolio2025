@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const projects = [
   {
@@ -46,16 +46,35 @@ const projects = [
 export default function ProjectSection() {
   const sectionRef = useRef(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Ensure refs match number of projects
-  useEffect(() => {
-    cardRefs.current = cardRefs.current.slice(0, projects.length);
-  }, []);
-
-  // Create inView states for each project card
-  const inViewStates = projects.map((_, index) =>
-    useInView(() => cardRefs.current[index], { amount: 0.3, once: false })
+  const [inViewStates, setInViewStates] = useState(
+    Array(projects.length).fill(false)
   );
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    cardRefs.current.forEach((el, index) => {
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setInViewStates((prev) => {
+              const updated = [...prev];
+              updated[index] = true;
+              return updated;
+            });
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   return (
     <section
