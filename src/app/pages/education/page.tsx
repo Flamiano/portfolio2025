@@ -50,7 +50,6 @@ export default function EducationSection() {
   const storyRef = useRef(null);
   const isInView = useInView(storyRef, { amount: 0.3, once: false });
 
-  // Refs for each card
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [inViewStates, setInViewStates] = useState(
     Array(educationData.length).fill(false)
@@ -119,7 +118,9 @@ export default function EducationSection() {
             <div
               key={index}
               className="flex justify-center w-full md:w-auto"
-              ref={(el) => (cardRefs.current[index] = el)}
+              ref={(el) => {
+                cardRefs.current[index] = el;
+              }}
             >
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
@@ -237,10 +238,8 @@ export default function EducationSection() {
                 From my early years at Apolonio Samson Elementary School to my
                 current college life at Bestlink College of the Philippines,
                 every step of my educational journey has shaped me into the
-                programmer I am becoming. I started as a curious student who
-                enjoyed exploring computers and electronics.
+                programmer I am becoming...
               </p>
-
               <p className="mb-4">
                 In junior and senior high school, my passion for programming
                 grew stronger. I gained experience in languages like Visual
@@ -249,13 +248,11 @@ export default function EducationSection() {
                 and awards was just a bonus to the joy of learning and
                 discovering.
               </p>
-
               <p className="mb-4">
                 College has pushed me to grow even more — from working on group
                 projects to exploring real-world coding practices. It taught me
                 discipline, collaboration, and creativity.
               </p>
-
               <p>
                 Today, as an IT college student, I&apos;m diving deep into
                 software development, web design, and database systems. Each
