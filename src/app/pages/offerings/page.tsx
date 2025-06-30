@@ -14,7 +14,7 @@ import {
   DatabaseZap,
 } from "lucide-react";
 
-export const OffersSection = () => {
+const OfferingsPage = () => {
   const offersRef = useRef(null);
   const isInView = useInView(offersRef, { once: false, amount: 0.2 });
 
@@ -135,3 +135,5 @@ export const OffersSection = () => {
     </section>
   );
 };
+
+export default OfferingsPage;
