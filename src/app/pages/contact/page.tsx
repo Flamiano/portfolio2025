@@ -13,7 +13,7 @@ import {
 import Magnet from "@/app/components/magnet-buttons/Magnet";
 import Image from "next/image";
 
-export const ContactSection = () => {
+const ContactSection = () => {
   const [coords, setCoords] = useState<string | null>(null);
   const [timezone, setTimezone] = useState<string | null>(null);
   const [magnetActive, setMagnetActive] = useState(false);
@@ -59,7 +59,7 @@ export const ContactSection = () => {
       id="contact"
       className="w-full h-screen flex flex-col items-center justify-between px-6 lg:px-16 py-20 bg-transparent relative overflow-hidden"
     >
-      {/* Animated Section Heading */}
+      {/* Section Heading */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -130,7 +130,7 @@ export const ContactSection = () => {
         </Magnet>
       </motion.div>
 
-      {/* Slide-in Modal with AnimatePresence */}
+      {/* Slide-in Modal */}
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -140,7 +140,6 @@ export const ContactSection = () => {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="fixed top-0 left-0 h-full w-full sm:max-w-md bg-white shadow-2xl z-50 p-6 sm:p-8 flex flex-col justify-between"
           >
-            {/* Close Button */}
             <button
               onClick={() => {
                 setShowModal(false);
@@ -151,7 +150,6 @@ export const ContactSection = () => {
               ✕
             </button>
 
-            {/* Logo */}
             <div className="absolute top-4 left-4">
               <Image
                 src="/logo.png"
@@ -164,7 +162,6 @@ export const ContactSection = () => {
             </div>
 
             <div className="mt-16 sm:mt-24 md:mt-18 lg:mt-22 space-y-4 text-center text-gray-800 overflow-hidden">
-              {/* Name and Header Info */}
               <div className="text-xl sm:text-2xl font-bold text-[#5e17eb] tracking-wide">
                 John Roel Flamiano
               </div>
@@ -173,7 +170,6 @@ export const ContactSection = () => {
                 <span>{currentTime}, Asia/Manila</span>
               </div>
 
-              {/* Inspiring Text */}
               <p className="text-sm sm:text-base leading-relaxed mt-4 text-gray-700">
                 I’m genuinely excited to hear from you — whether you have an
                 idea, a project, or just want to connect.
@@ -187,7 +183,6 @@ export const ContactSection = () => {
                 Thank you for visiting — I appreciate your time!
               </p>
 
-              {/* Contact Info */}
               <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4 text-xs sm:text-sm font-medium text-gray-800 border-t pt-4 border-gray-200">
                 <div className="flex items-center gap-2">
                   <Mail className="text-[#5e17eb]" size={18} />
@@ -199,7 +194,6 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              {/* Social Links */}
               <div className="mt-6">
                 <div className="text-xs sm:text-sm font-semibold uppercase text-gray-600 mb-2">
                   Socials
@@ -232,7 +226,6 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              {/* CTA Text */}
               <h1 className="text-[#5e17eb] font-extrabold text-[2rem] sm:text-[3rem] mt-6 lg:mt-15">
                 MESSAGE NOW!
               </h1>
@@ -243,3 +236,5 @@ export const ContactSection = () => {
     </section>
   );
 };
+
+export default ContactSection;

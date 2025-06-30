@@ -12,9 +12,9 @@ import AboutMeSection from "./pages/about/page";
 import TextCursor from "./components/text-cursor/TextCursor";
 import ProjectSection from "./pages/projects/page";
 import TechStackSection from "./pages/techstack/page";
-import { ContactSection } from "./pages/contact/page";
 import { OffersSection } from "./pages/offerings/page";
 import Loader from "./components/loader/Loader";
+import ContactSection from "./pages/contact/page";
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
