@@ -39,7 +39,7 @@ const projects = [
     image: "/mockups/portfolio.png",
     tech: ["Next.js", "Node.js", "Tailwind", "GSAP", "Framer Motion"],
     github: "https://github.com/Flamiano/portfolio.git",
-    live: "https://johnroelflamiano.vercel.app",
+    live: "https://johnroelflamiano2025.vercel.app/",
   },
 ];
 
