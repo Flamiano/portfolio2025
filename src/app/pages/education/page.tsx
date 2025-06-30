@@ -50,6 +50,16 @@ export default function EducationSection() {
   const storyRef = useRef(null);
   const isInView = useInView(storyRef, { amount: 0.3, once: false });
 
+  // Move refs outside the map
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  useEffect(() => {
+    cardRefs.current = cardRefs.current.slice(0, educationData.length);
+  }, []);
+
+  const cardInViewStates = educationData.map((_, index) =>
+    useInView(() => cardRefs.current[index], { amount: 0.3, once: false })
+  );
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const isTouch =
@@ -65,7 +75,6 @@ export default function EducationSection() {
       className="w-full px-4 md:px-10 py-30 max-w-7xl lg:max-w-full mx-auto"
       id="education"
     >
-      {/* Section Heading */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -78,17 +87,16 @@ export default function EducationSection() {
           <div className="flex-1 border-t border-[#5e17eb]/40" />
         </div>
       </motion.div>
-      {/* Education Cards */}
+
       <div className="flex flex-col md:flex-row md:flex-wrap gap-6 justify-center max-w-[700px] lg:max-w-full mx-auto">
         {educationData.map((item, index) => {
-          const cardRef = useRef(null);
-          const isCardInView = useInView(cardRef, { amount: 0.3, once: false });
+          const isCardInView = cardInViewStates[index];
 
           return (
             <div
               key={index}
               className="flex justify-center w-full md:w-auto"
-              ref={cardRef}
+              ref={(el) => (cardRefs.current[index] = el)}
             >
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
@@ -102,21 +110,18 @@ export default function EducationSection() {
                 }}
                 className="relative"
               >
-                {/* Present Badge */}
                 {item.isPresent && (
                   <div className="absolute top-2 left-2 bg-[#5e17eb] text-white text-xs px-2 py-1 rounded z-20 font-semibold shadow-md">
                     Present
                   </div>
                 )}
 
-                {/* Hover Me Label (Desktop only) */}
                 {!isTouchDevice && (
                   <div className="absolute top-2 right-2 text-xs text-gray-500 font-semibold z-20">
                     Hover Me
                   </div>
                 )}
 
-                {/* Card with Touch Support */}
                 <div
                   onClick={() => {
                     if (isTouchDevice) {
@@ -170,7 +175,6 @@ export default function EducationSection() {
         })}
       </div>
 
-      {/* My Story */}
       <div className="max-w-6xl mx-auto mt-16 px-4" ref={storyRef}>
         <motion.h2
           className="text-2xl font-bold text-[#5e17eb] mb-8 text-center"
@@ -182,7 +186,6 @@ export default function EducationSection() {
         </motion.h2>
 
         <div className="flex flex-col md:flex-col lg:flex-row items-center lg:items-start gap-10">
-          {/* Left: Picture */}
           <motion.div
             className="w-full lg:w-1/2 flex justify-center"
             initial={{ opacity: 0, y: 50 }}
@@ -200,7 +203,6 @@ export default function EducationSection() {
             </div>
           </motion.div>
 
-          {/* Right: Text */}
           <motion.div
             className="w-full lg:w-1/2 flex items-center"
             initial={{ opacity: 0, y: 50 }}
@@ -232,12 +234,12 @@ export default function EducationSection() {
               </p>
 
               <p>
-                Today, as an IT college student, I'm diving deep into software
-                development, web design, and database systems. Each project,
-                lesson, and challenge is preparing me for the real world. My
-                goal is not just to become a skilled developer but also to
-                create solutions that improve lives and make an impact through
-                technology.
+                Today, as an IT college student, I&apos;m diving deep into
+                software development, web design, and database systems. Each
+                project, lesson, and challenge is preparing me for the real
+                world. My goal is not just to become a skilled developer but
+                also to create solutions that improve lives and make an impact
+                through technology.
               </p>
             </div>
           </motion.div>

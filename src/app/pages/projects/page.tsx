@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 
@@ -45,6 +45,17 @@ const projects = [
 
 export default function ProjectSection() {
   const sectionRef = useRef(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Ensure refs match number of projects
+  useEffect(() => {
+    cardRefs.current = cardRefs.current.slice(0, projects.length);
+  }, []);
+
+  // Create inView states for each project card
+  const inViewStates = projects.map((_, index) =>
+    useInView(() => cardRefs.current[index], { amount: 0.3, once: false })
+  );
 
   return (
     <section
@@ -69,14 +80,13 @@ export default function ProjectSection() {
       {/* Project Rows */}
       <div className="space-y-20">
         {projects.map((project, index) => {
-          const cardRef = useRef(null);
-          const isInView = useInView(cardRef, { amount: 0.3, once: false });
+          const isInView = inViewStates[index];
           const isEven = index % 2 === 0;
 
           return (
             <motion.div
               key={index}
-              ref={cardRef}
+              ref={(el) => (cardRefs.current[index] = el)}
               initial={{ opacity: 0, y: 60 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
               transition={{

@@ -103,7 +103,7 @@ export const ContactSection = () => {
             : "bg-gradient-to-br from-gray-600 to-[#5e17eb] text-transparent bg-clip-text"
         }`}
       >
-        LET'S BUILD IT
+        LET&apos;S BUILD IT
       </motion.h1>
 
       {/* Magnet Button */}
